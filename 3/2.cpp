@@ -5,73 +5,54 @@
 #include <vector>
 
 template<typename T>
-class stack_with_min
+class stack_with_min: public std::stack<std::pair<T, T>>
 {
-    std::stack<T> m_values;
-    std::stack<T> m_minims;
+    typedef std::pair<T, T> p;
+    typedef std::stack<p> basestack;
 public:
     void push(const T data)
     {
-        m_values.push(data);
-        m_minims.push((m_minims.empty() || data < m_minims.top() ? data : m_minims.top()));
-    }
-
-    std::pair<T,T> pop()
-    {
-        if (!m_values.empty())
+        if (basestack::empty())
         {
-            auto result = std::make_pair(m_values.top(), m_minims.top());
-            m_values.pop();
-            m_minims.pop();
-            return result;
-        }
-        throw "stack is empty";
-    }
-
-    operator bool(){
-        return !m_values.empty();
-    }
-};
-
-
-template<typename T>
-class stack_with_min2
-{
-    std::stack<std::pair<T, T>> m_values;
-public:
-    void push(const T data)
-    {
-        if (m_values.empty())
-        {
-            m_values.push(std::make_pair(data, data));
+            basestack::push(std::make_pair(data, data));
         }
         else
         {
-            auto top = m_values.top();
-            m_values.push(std::make_pair(data, top.second < data ? top.second : data));
+            auto top = basestack::top();
+            basestack::push(std::make_pair(data, top.second < data ? top.second : data));
         }
-
     }
 
-    std::pair<T,T> pop()
+    p top()
     {
-        if (!m_values.empty())
+        if (!basestack::empty())
         {
-            auto result = m_values.top();
-            m_values.pop();
-            return result;
+            return basestack::top();
         }
         throw "stack is empty";
     }
 
-    operator bool(){
-        return !m_values.empty();
+    void pop()
+    {
+        if (!basestack::empty())
+        {
+            basestack::pop();
+        }
+        else
+        {
+            throw "stack is empty";
+        }
+    }
+
+    operator bool()
+    {
+        return !basestack::empty();
     }
 };
 
 int main()
 {
-    stack_with_min2<int> s;
+    stack_with_min<int> s;
     s.push(5);
     s.push(6);
     s.push(1);
@@ -79,8 +60,9 @@ int main()
 
     while(s)
     {
-        auto p = s.pop();
+        auto p = s.top();
         std::cout << p.first << ": " << p.second <<std::endl;
+        s.pop();
     }
     return 0;
 }
