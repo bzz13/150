@@ -53,7 +53,9 @@ public:
             if (remaning == 0)
             {
                 delete m_ptr;
+                m_ptr = nullptr;
                 delete m_counter;
+                m_counter = nullptr;
             }
             m_released = true;
         }
@@ -72,10 +74,10 @@ public:
             {
                 release();
             }
-            m_released = false;
+            m_released = other.m_released;
             m_ptr = other.m_ptr;
             m_counter = other.m_counter;
-            if (other.m_ptr)
+            if (m_ptr && !m_released)
             {
                 m_counter->add_ref();
             }
