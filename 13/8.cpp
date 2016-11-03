@@ -68,9 +68,9 @@ public:
 
     smart_ptr<T>& operator=(const smart_ptr<T>& other)
     {
-        if (this != &other)
+        if (this != &other && m_ptr != other.m_ptr)
         {
-            if (m_ptr && m_ptr != other.m_ptr)
+            if (m_ptr)
             {
                 release();
             }
