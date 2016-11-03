@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 class ref_counter
 {
@@ -138,7 +139,20 @@ int main()
         std::cout << "p5.release(): ";
         p5.release();
 
+        smart_ptr<int> p6(p2);
+        p6 = p2;
+        p6 = p2;
+        p2 = p6;
+
         std::cout << "~smart_ptr:" << std::endl;
+    }
+    {
+        std::shared_ptr<int> p1(new int(4));
+        std::shared_ptr<int> p2(p1);
+        p2 = p1;
+        p2 = p1;
+        p2 = p1;
+        p1 = p2;
     }
     return 0;
 }
