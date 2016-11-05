@@ -38,6 +38,7 @@ public:
         while(m_is_hangry)
         {
             m_left->take();
+            std::this_thread::sleep_for(std::chrono::milliseconds(rand()% 1000));
             m_right->take();
             std::this_thread::sleep_for(std::chrono::milliseconds(rand()% 5000));
             std::stringstream answer;
@@ -52,7 +53,7 @@ public:
 
 int main()
 {
-    const int max = 10;
+    const int max = 5;
     chop_stick sticks[max];
     std::vector<philosopher> ph;
 
