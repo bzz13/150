@@ -11,9 +11,9 @@ class chop_stick
 {
     std::mutex m_mtx;
 public:
-    void take()
+    bool take()
     {
-        m_mtx.lock();
+        return m_mtx.try_lock();
     }
 
     void put_down()
@@ -37,10 +37,15 @@ public:
     {
         while(m_is_hangry)
         {
-            m_left->take();
-            std::this_thread::sleep_for(std::chrono::milliseconds(rand()% 5000));
-            m_right->take();
-            std::this_thread::sleep_for(std::chrono::milliseconds(rand()% 5000));
+            if (!m_left->take())
+                continue;
+            std::this_thread::sleep_for(std::chrono::milliseconds(rand()% 1000));
+            if(!m_right->take())
+            {
+                m_left->put_down();
+                continue;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(rand()% 1000));
             std::stringstream answer;
             answer << std::this_thread::get_id() << ": Я покушал!" << std::endl;
             std::cout << answer.str();
@@ -65,7 +70,7 @@ int main()
     std::vector<std::thread> ths;
     for(int i = 0; i < max; ++i)
     {
-        ths.push_back(std::thread([&ph, &i](){
+        ths.push_back(std::thread([&ph, i](){
             ph[i].eat();
         }));
     }
