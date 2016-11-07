@@ -1,23 +1,30 @@
 #include <iostream>
 
+void swap(int* arr, const int i, const int j)
+{
+    if (i == j)
+    {
+        return;
+    }
+    int tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+}
+
 int partition(int* arr, const int left, const int right)
 {
-    int pivot = arr[right - 1]; // can randomize
-    int i = left;
-    int j = right - 1;
-    while(i < j)
+    int p = right - 1;
+    int i = left - 1;
+    for (int j = left; j < right - 1; ++j)
     {
-        while(arr[i] <= pivot)
-            i++;
-        while(arr[j] > pivot)
-            j--;
-        if (i < j)
+        if (arr[j] <= arr[p])
         {
-            int tmp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = tmp;
+            ++i;
+            swap(arr, i, j);
         }
     }
+    ++i;
+    swap(arr, i, right - 1);
     return i;
 }
 void quikSort(int* arr, const int left, const int right)
@@ -25,8 +32,8 @@ void quikSort(int* arr, const int left, const int right)
     if (left < right - 1)
     {
         int index = partition(arr, left, right);
-        if (index < right) quikSort(arr, left, index);
-        quikSort(arr, index, right);
+        quikSort(arr, left, index);
+        quikSort(arr, index + 1, right);
     }
 }
 
