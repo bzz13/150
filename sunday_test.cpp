@@ -22,7 +22,7 @@ int median(const int a, const int b, const int c)
     }
     if (c <= b && b <= a){
         return b;
-    }    
+    }
 }
 
 
@@ -38,7 +38,8 @@ class R {
     
     void precalc(TNode* node, const int level)
     {
-        if (!node){
+        if (!node)
+        {
             return;
         }
         if(values.find(level) == values.end())
@@ -63,7 +64,7 @@ public:
         {
             return values[r];
         }
-        throw "not found";
+        throw std::runtime_error("level not exists");
     }
 };
 
@@ -95,8 +96,9 @@ void blend(std::vector<T>& source, const std::vector<T>& extra, const std::vecto
             pos_values[pos[i]].push_back(extra[i]);
         }
     }
-    T t;
-    std::vector<T> result(source.size() + extra.size(), t);
+    std::vector<T> result(source);
+    result.insert(result.end(), extra.begin(), extra.end());
+
     auto current = source.begin();
     for(int i = 0; i < result.size(); ++i)
     {
@@ -117,7 +119,7 @@ void blend(std::vector<T>& source, const std::vector<T>& extra, const std::vecto
         }
     }
     source.swap(result);
-    
+
     /*
     auto insert_position = source.begin();
     for (int i = 0; i < pos.size(); ++i)
