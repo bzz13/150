@@ -3,6 +3,7 @@
 #include <ostream>
 #include <initializer_list>
 #include <unordered_set>
+#include <stdexcept>
 
 using namespace std;
 
@@ -144,6 +145,31 @@ public:
             tmp = tmp->next;
         }
         recalc_tail();
+    }
+
+    T find_k_from_end(int k) const
+    {
+        if (k < 0)
+        {
+            throw invalid_argument("k must be positive");
+        }
+        auto fast = head;
+        while(fast && k >= 0)
+        {
+            fast = fast->next;
+            k--;
+        }
+        if (!fast && k > 0)
+        {
+            throw out_of_range("k is too big");
+        }
+        auto curr = head;
+        while(fast)
+        {
+            curr = curr->next;
+            fast = fast->next;
+        }
+        return curr->data;
     }
 
     friend ostream& operator<<(ostream& os, const linkedlist<T>& list)

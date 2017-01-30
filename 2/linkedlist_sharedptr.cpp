@@ -42,6 +42,18 @@ int main()
         list.add(8);
         cout << list << endl;
     }
+    {
+        cout << endl;
+        linkedlist<int> list({7,6,5,4,3,2,1,0});
+        cout << list.find_k_from_end(0) << " " << 0 << endl;
+        cout << list.find_k_from_end(1) << " " << 1 << endl;
+        cout << list.find_k_from_end(2) << " " << 2 << endl;
+        cout << list.find_k_from_end(3) << " " << 3 << endl;
+        cout << list.find_k_from_end(4) << " " << 4 << endl;
+        cout << list.find_k_from_end(5) << " " << 5 << endl;
+        cout << list.find_k_from_end(6) << " " << 6 << endl;
+        cout << list.find_k_from_end(7) << " " << 7 << endl;
+    }
 
     return 0;
 }
