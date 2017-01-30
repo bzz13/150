@@ -66,7 +66,7 @@ int main()
         cout << l1.is_polindrom() << " " << true << endl;
         linkedlist<int> l2({1,2,2,1});
         cout << l2.is_polindrom() << " " << true << endl;
-        
+
         linkedlist<int> l3({1,2,3,4,1});
         cout << l3.is_polindrom() << " " << false << endl;
         linkedlist<int> l4({1,2,3,3,4,1});

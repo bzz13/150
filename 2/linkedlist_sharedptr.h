@@ -223,15 +223,92 @@ public:
         return true;
     }
 
-    friend ostream& operator<<(ostream& os, const linkedlist<T>& list)
+    class iterator
     {
-        auto tmp = list.head;
-        while(tmp)
+        typedef size_t difference_type; //almost always ptrdif_t
+        typedef T value_type;
+        typedef T& reference;
+        typedef T* pointer;
+        typedef std::forward_iterator_tag iterator_category;
+
+        shared_ptr<linkedlist<T>::node> current;
+    public:
+        iterator(shared_ptr<linkedlist<T>::node> init): current(init) { }
+        iterator& operator++() //prefix increment
         {
-            os << tmp->data << " -> ";
-            tmp = tmp->next;
+            if (current)
+            {
+                current = current->next;
+            }
+            return (*this);
+        }
+        iterator operator++(int) //postfix increment
+        {
+            auto tmp = current;
+            if (current)
+            {
+                current = current->next;
+            }
+            return iterator(tmp);
+        }
+        reference operator*()
+        {
+            return current->data;
+        }
+        pointer operator->()
+        {
+            return &(current->data);
+        }
+        bool operator==(const iterator& other) const
+        {
+            if (!current && !other.current)
+                return true;
+            if (current && other.current)
+                return &current == &(other.current);
+            return false;
+        }
+        bool operator!=(const iterator& other) const
+        {
+            return !(*this == other);
+        }
+        operator bool() const
+        {
+            return current != nullptr;
+        }
+    };
+
+    iterator begin()
+    {
+        return iterator(head);
+    }
+    iterator end()
+    {
+        return iterator(nullptr);
+    }
+
+    friend ostream& operator<<(ostream& os, linkedlist<T>& list)
+    {
+        // auto tmp = list.head;
+        // while(tmp)
+        // {
+        //     os << tmp->data << " -> ";
+        //     tmp = tmp->next;
+        // }
+        // os << "nullptr";
+
+        // for (auto tmp = list.begin(); tmp != list.end(); ++tmp)
+        // {
+        //     os << *tmp << " -> ";
+        // }
+        // os << "nullptr";
+
+        for(auto t: list)
+        {
+            os << t << " -> ";
         }
         os << "nullptr";
+
         return os;
     }
+
 };
