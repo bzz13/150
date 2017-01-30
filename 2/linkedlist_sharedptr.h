@@ -2,6 +2,7 @@
 #include <memory>
 #include <ostream>
 #include <initializer_list>
+#include <unordered_set>
 
 using namespace std;
 
@@ -88,6 +89,61 @@ public:
     {
         head = nullptr;
         tail = nullptr;
+    }
+
+    void remove_duplicates_values()
+    {
+        if (!head)
+        {
+            return;
+        }
+
+        unordered_set<T> vals { head->data };
+        auto prev = head;
+        auto curr = head->next;
+        while(curr)
+        {
+            if (vals.find(curr->data) == vals.end())
+            {
+                vals.insert(curr->data);
+                prev = curr;
+            }
+            else
+            {
+                prev->next = curr->next;
+            }
+            curr = curr->next;
+        }
+        recalc_tail();
+    }
+
+    void remove_duplicates_values2()
+    {
+        if (!head)
+        {
+            return;
+        }
+
+        auto tmp = head;
+        while(tmp)
+        {
+            auto curr = tmp;
+            auto next = curr->next;
+            while(next)
+            {
+                if (next->data == tmp->data)
+                {
+                    curr->next = next->next;
+                }
+                else
+                {
+                    curr = curr->next;
+                }
+                next = next->next;
+            }
+            tmp = tmp->next;
+        }
+        recalc_tail();
     }
 
     friend ostream& operator<<(ostream& os, const linkedlist<T>& list)

@@ -25,7 +25,21 @@ int main()
         cout << list << endl;
     }
     {
-        linkedlist<int> list({1,2,3,4,5});
+        cout << endl;
+        linkedlist<int> list({1,2,3,4,5,1,2,3,6,7,3});
+        cout << list << endl;
+        list.remove_duplicates_values();
+        cout << list << endl;
+        list.add(8);
+        cout << list << endl;
+    }
+    {
+        cout << endl;
+        linkedlist<int> list({1,2,3,4,5,1,2,3,6,7,3});
+        cout << list << endl;
+        list.remove_duplicates_values2();
+        cout << list << endl;
+        list.add(8);
         cout << list << endl;
     }
 
