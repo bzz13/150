@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <ostream>
+#include <initializer_list>
 
 using namespace std;
 
@@ -9,7 +10,7 @@ class linkedlist
 {
     template<typename TT> struct node
     {
-        node(TT t): data(t), next(nullptr) { }
+        node(TT t): data(t) { }
         TT data;
         shared_ptr<node<TT>> next;
     };
@@ -23,7 +24,7 @@ class linkedlist
         {
             tail = nullptr;
         }
-        shared_ptr<node<T>> tmp = head;
+        auto tmp = head;
         while(tmp->next)
         {
             tmp = tmp->next;
@@ -32,6 +33,8 @@ class linkedlist
     }
 
 public:
+    linkedlist() { }
+
     void add(const T& t)
     {
         if (tail)
@@ -43,6 +46,14 @@ public:
         {
             head = make_shared<node<T>>(t);
             tail = head;
+        }
+    }
+
+    linkedlist(initializer_list<T> list): linkedlist()
+    {
+        for (auto l: list)
+        {
+            add(l);
         }
     }
 
@@ -59,7 +70,7 @@ public:
         }
         else
         {
-            shared_ptr<node<T>> tmp = head;
+            auto tmp = head;
             while(tmp->next)
             {
                 if (tmp->next->data == t)
@@ -73,15 +84,21 @@ public:
         recalc_tail();
     }
 
+    void clear()
+    {
+        head = nullptr;
+        tail = nullptr;
+    }
+
     friend ostream& operator<<(ostream& os, const linkedlist<T>& list)
     {
-        shared_ptr<node<T>> tmp = list.head;
+        auto tmp = list.head;
         while(tmp)
         {
             os << tmp->data << " -> ";
             tmp = tmp->next;
         }
-        os << " nullptr";
+        os << "nullptr";
         return os;
     }
 };
