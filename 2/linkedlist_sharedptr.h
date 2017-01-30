@@ -223,14 +223,8 @@ public:
         return true;
     }
 
-    class iterator
+    class iterator : public std::iterator<std::forward_iterator_tag, T>
     {
-        typedef size_t difference_type; //almost always ptrdif_t
-        typedef T value_type;
-        typedef T& reference;
-        typedef T* pointer;
-        typedef std::forward_iterator_tag iterator_category;
-
         shared_ptr<linkedlist<T>::node> current;
     public:
         iterator(shared_ptr<linkedlist<T>::node> init): current(init) { }
@@ -251,11 +245,11 @@ public:
             }
             return iterator(tmp);
         }
-        reference operator*()
+        T& operator*()
         {
             return current->data;
         }
-        pointer operator->()
+        T* operator->()
         {
             return &(current->data);
         }
@@ -274,6 +268,13 @@ public:
         operator bool() const
         {
             return current != nullptr;
+        }
+
+        friend void swap(iterator& lhs, iterator& rhs)
+        {
+            auto tmp = lhs.current;
+            lhs.current = rhs.current;
+            rhs.current = tmp;
         }
     };
 

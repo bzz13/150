@@ -1,5 +1,6 @@
 #include "linkedlist_sharedptr.h"
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -71,6 +72,17 @@ int main()
         cout << l3.is_polindrom() << " " << false << endl;
         linkedlist<int> l4({1,2,3,3,4,1});
         cout << l4.is_polindrom() << " " << false << endl;
+    }
+    {
+        cout << endl;
+        linkedlist<int> list = {1, 3, 6, 4, 2, 10};
+        cout << list << endl;
+        cout << "find 4" << endl;
+        for(auto f = find(list.begin(), list.end(), 4); f != list.end(); ++f)
+        {
+            cout << *f << " -> ";
+        }
+        cout << endl;
     }
 
     return 0;
