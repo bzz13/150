@@ -223,8 +223,9 @@ public:
         return true;
     }
 
-    class iterator : public std::iterator<std::forward_iterator_tag, T>
+    class iterator          : public std::iterator<std::forward_iterator_tag, T>
     {
+
         shared_ptr<linkedlist<T>::node> current;
     public:
         iterator(shared_ptr<linkedlist<T>::node> init): current(init) { }
@@ -278,16 +279,74 @@ public:
         }
     };
 
+    class const_iterator    : public std::iterator<std::forward_iterator_tag, const T>
+    {
+
+        shared_ptr<linkedlist<T>::node> current;
+    public:
+        const_iterator(shared_ptr<linkedlist<T>::node> init): current(init) { }
+        const_iterator(const iterator& it): current(it.current) { }
+        const_iterator& operator++() //prefix increment
+        {
+            if (current)
+            {
+                current = current->next;
+            }
+            return (*this);
+        }
+        const_iterator operator++(int) //postfix increment
+        {
+            auto tmp = current;
+            if (current)
+            {
+                current = current->next;
+            }
+            return iterator(tmp);
+        }
+        const T& operator*() const
+        {
+            return current->data;
+        }
+        const T* operator->() const
+        {
+            return &(current->data);
+        }
+        bool operator==(const iterator& other) const
+        {
+            if (!current && !other.current)
+                return true;
+            if (current && other.current)
+                return &current == &(other.current);
+            return false;
+        }
+        bool operator!=(const iterator& other) const
+        {
+            return !(*this == other);
+        }
+        operator bool() const
+        {
+            return current != nullptr;
+        }
+    };
+
     iterator begin()
     {
         return iterator(head);
+    }
+    const_iterator begin() const
+    {
+        return const_iterator(head);
     }
     iterator end()
     {
         return iterator(nullptr);
     }
+    const_iterator end() const
+    {
+        return const_iterator(nullptr);
+    }
 
-    friend ostream& operator<<(ostream& os, linkedlist<T>& list)
+    friend ostream& operator<<(ostream& os, const linkedlist<T>& list)
     {
         // auto tmp = list.head;
         // while(tmp)

@@ -81,8 +81,10 @@ int main()
         for(auto f = find(list.begin(), list.end(), 4); f != list.end(); ++f)
         {
             cout << *f << " -> ";
+            ++(*f);
         }
-        cout << endl;
+        cout << endl 
+             << list << endl;
     }
 
     return 0;
