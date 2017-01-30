@@ -11,15 +11,15 @@ using namespace std;
 template<typename T>
 class linkedlist
 {
-    template<typename TT> struct node
+    struct node
     {
-        node(TT t): data(t) { }
-        TT data;
-        shared_ptr<node<TT>> next;
+        node(T t): data(t) { }
+        T data;
+        shared_ptr<node> next;
     };
 
-    shared_ptr<node<T>> head;
-    shared_ptr<node<T>> tail;
+    shared_ptr<node> head;
+    shared_ptr<node> tail;
 
     void recalc_tail()
     {
@@ -42,12 +42,12 @@ public:
     {
         if (tail)
         {
-            tail->next = make_shared<node<T>>(t);
+            tail->next = make_shared<node>(t);
             tail = tail->next;
         }
         else
         {
-            head = make_shared<node<T>>(t);
+            head = make_shared<node>(t);
             tail = head;
         }
     }
@@ -173,7 +173,7 @@ public:
         return curr->data;
     }
 
-    void remove_node(node<T> n)
+    void remove_node(node n)
     {
         if (!n->next)
         {
