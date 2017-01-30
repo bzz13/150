@@ -55,5 +55,23 @@ int main()
         cout << list.find_k_from_end(7) << " " << 7 << endl;
     }
 
+    {
+        cout << endl;
+        linkedlist<int> le;
+        cout << le.is_polindrom() << " " << true << endl;
+        linkedlist<int> l0({1});
+        cout << l0.is_polindrom() << " " << true << endl;
+
+        linkedlist<int> l1({1,2,3,2,1});
+        cout << l1.is_polindrom() << " " << true << endl;
+        linkedlist<int> l2({1,2,2,1});
+        cout << l2.is_polindrom() << " " << true << endl;
+        
+        linkedlist<int> l3({1,2,3,4,1});
+        cout << l3.is_polindrom() << " " << false << endl;
+        linkedlist<int> l4({1,2,3,3,4,1});
+        cout << l4.is_polindrom() << " " << false << endl;
+    }
+
     return 0;
 }

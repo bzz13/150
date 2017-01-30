@@ -4,6 +4,7 @@
 #include <initializer_list>
 #include <unordered_set>
 #include <stdexcept>
+#include <stack>
 
 using namespace std;
 
@@ -170,6 +171,56 @@ public:
             fast = fast->next;
         }
         return curr->data;
+    }
+
+    void remove_node(node<T> n)
+    {
+        if (!n->next)
+        {
+            throw invalid_argument("cant remove tail node directly");
+        }
+        else
+        {
+            n->data = n->next->data;
+            n->next = n->next->next;
+        }
+    }
+
+    bool is_polindrom()
+    {
+        if(!head)
+        {
+            return true;
+        }
+        auto tmp = head;
+        int length = 0;
+        while(tmp)
+        {
+            length++;
+            tmp = tmp->next;
+        }
+
+        stack<T> st;
+        tmp = head;
+        for(auto i = 0; i < length/2; i++)
+        {
+            st.push(tmp->data);
+            tmp = tmp->next;
+        }
+        if (length % 2)
+        {
+            tmp = tmp->next;
+        }
+        while(tmp)
+        {
+            if (tmp->data != st.top())
+            {
+                return false;
+            }
+            st.pop();
+            tmp = tmp->next;
+        }
+        return true;
     }
 
     friend ostream& operator<<(ostream& os, const linkedlist<T>& list)
